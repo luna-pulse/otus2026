@@ -1,0 +1,87 @@
+openapi: 3.0.3
+info:
+  title: Мини-анкета API
+  description: Простой API анкеты. Ответы хранятся в памяти.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+paths:
+  /questions:
+    get:
+      summary: Список вопросов и ответов
+      operationId: getQuestions
+      responses:
+        "200":
+          description: Массив QuestionAnswer
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/QuestionAnswer"
+  /answers:
+    post:
+      summary: Сохранить ответы
+      operationId: postAnswers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/QuestionAnswer"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+  /api/task:
+    get:
+      summary: Текст задания (task.md)
+      responses:
+        "200":
+          description: Markdown
+          content:
+            text/markdown:
+              schema:
+                type: string
+  /api/launch:
+    get:
+      summary: Инструкция запуска (launchdoc.md)
+      responses:
+        "200":
+          description: Markdown
+          content:
+            text/markdown:
+              schema:
+                type: string
+  /api/promts:
+    get:
+      summary: Контекст разговора (ai_conversation.md)
+      responses:
+        "200":
+          description: Markdown
+          content:
+            text/markdown:
+              schema:
+                type: string
+components:
+  schemas:
+    QuestionAnswer:
+      type: object
+      properties:
+        number:
+          type: integer
+        question:
+          type: string
+        answer:
+          type: string
+        answered:
+          type: boolean
